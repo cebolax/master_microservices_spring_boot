@@ -1,6 +1,8 @@
 package com.minutes.rest.microservices.restfulwebservices.user;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -14,17 +16,24 @@ public class UserController {
     }
 
     @GetMapping(path = "/users")
-    List<User> getAllUsers() {
+    public List<User> getAllUsers() {
         return userDaoService.findAll();
     }
 
     @GetMapping(path = "/users/{id}")
-    User getUser(@PathVariable Integer id) {
+    public User getUser(@PathVariable Integer id) {
         return userDaoService.findOne(id);
     }
 
     @PostMapping(path = "/users")
-    void saveUser(@RequestBody User user) {
-        userDaoService.save(user);
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
+        var createdUser = userDaoService.save(user);
+        var location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(createdUser.getId())
+                .toUri();
+
+        // Header - Location: http://localhost:8080/users/{id}
+        return ResponseEntity.created(location).build();
     }
 }
