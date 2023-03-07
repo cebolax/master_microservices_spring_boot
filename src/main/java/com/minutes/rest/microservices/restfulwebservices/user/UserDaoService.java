@@ -12,11 +12,13 @@ import java.util.Objects;
 public class UserDaoService {
     private static final List<User> users = new ArrayList<>();
 
+    private static int usersCount = 0;
+
     static {
         users.addAll(Arrays.asList(
-                new User(1, "Adam", LocalDate.now().minusYears(30)),
-                new User(2, "Eve", LocalDate.now().minusYears(30)),
-                new User(3, "Jim", LocalDate.now().minusYears(30))
+                new User(++usersCount, "Adam", LocalDate.now().minusYears(30)),
+                new User(++usersCount, "Eve", LocalDate.now().minusYears(30)),
+                new User(++usersCount, "Jim", LocalDate.now().minusYears(30))
         ));
     }
 
@@ -34,4 +36,8 @@ public class UserDaoService {
     }
 
     // save
+    void save(User user) {
+        user.setId(++usersCount);
+        users.add(user);
+    }
 }
