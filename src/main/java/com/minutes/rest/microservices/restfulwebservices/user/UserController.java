@@ -22,12 +22,19 @@ public class UserController {
 
     @GetMapping(path = "/users/{id}")
     public User getUser(@PathVariable Integer id) {
-        return userDaoService.findOne(id);
+        var user = userDaoService.findOne(id);
+
+        if (user == null) {
+            throw new UserNotFoundException("id : " + id);
+        }
+
+        return user;
     }
 
     @PostMapping(path = "/users")
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         var createdUser = userDaoService.save(user);
+
         var location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(createdUser.getId())

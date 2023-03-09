@@ -32,7 +32,7 @@ public class UserDaoService {
         return users.stream()
                 .filter(user -> Objects.equals(user.getId(), id))
                 .findFirst()
-                .orElseThrow();
+                .orElse(null);
     }
 
     // save
