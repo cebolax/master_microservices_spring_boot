@@ -23,11 +23,9 @@ public class UserController {
     @GetMapping(path = "/users/{id}")
     public User getUser(@PathVariable Integer id) {
         var user = userDaoService.findOne(id);
-
         if (user == null) {
             throw new UserNotFoundException("id : " + id);
         }
-
         return user;
     }
 
@@ -42,5 +40,10 @@ public class UserController {
 
         // Header - Location: http://localhost:8080/users/{id}
         return ResponseEntity.created(location).build();
+    }
+
+    @DeleteMapping(path = "/users/{id}")
+    public void deleteUser(@PathVariable Integer id) {
+        userDaoService.deleteById(id);
     }
 }

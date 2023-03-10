@@ -22,12 +22,10 @@ public class UserDaoService {
         ));
     }
 
-    // findAll
     List<User> findAll() {
         return users;
     }
 
-    // findOne
     User findOne(Integer id) {
         return users.stream()
                 .filter(user -> Objects.equals(user.getId(), id))
@@ -35,10 +33,13 @@ public class UserDaoService {
                 .orElse(null);
     }
 
-    // save
     User save(User user) {
         user.setId(++usersCount);
         users.add(user);
         return user;
+    }
+
+    void deleteById(Integer id) {
+        users.removeIf(user -> Objects.equals(user.getId(), id));
     }
 }
