@@ -1,16 +1,24 @@
 package com.minutes.rest.microservices.restfulwebservices.user;
 
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class User {
     private Integer id;
-    private String name;
-    private LocalDate birthday;
 
-    public User(Integer id, String name, LocalDate birthday) {
+    @Size(min=2, message = "Name should have atleast 2 characters")
+    private String name;
+
+    @Past(message = "Birth Date should be in the past")
+    private LocalDate birthDate;
+
+    public User(Integer id, String name, LocalDate birthDate) {
+        super();
         this.id = id;
         this.name = name;
-        this.birthday = birthday;
+        this.birthDate = birthDate;
     }
 
     public Integer getId() {
@@ -29,11 +37,17 @@ public class User {
         this.name = name;
     }
 
-    public LocalDate getBirthday() {
-        return birthday;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", name=" + name + ", birthDate=" + birthDate + "]";
+    }
+
 }

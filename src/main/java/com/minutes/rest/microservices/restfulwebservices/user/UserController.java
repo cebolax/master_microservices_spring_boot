@@ -1,5 +1,6 @@
 package com.minutes.rest.microservices.restfulwebservices.user;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/users")
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         var createdUser = userDaoService.save(user);
 
         var location = ServletUriComponentsBuilder.fromCurrentRequest()
