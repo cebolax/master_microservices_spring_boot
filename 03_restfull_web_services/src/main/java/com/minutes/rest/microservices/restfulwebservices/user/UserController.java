@@ -1,6 +1,11 @@
 package com.minutes.rest.microservices.restfulwebservices.user;
 
 import jakarta.validation.Valid;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.LinkBuilderFactory;
+import org.springframework.hateoas.server.core.LinkBuilderSupport;
+import org.springframework.hateoas.server.core.WebHandler;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -22,12 +27,17 @@ public class UserController {
     }
 
     @GetMapping(path = "/users/{id}")
-    public User getUser(@PathVariable Integer id) {
+    public EntityModel<User> getUser(@PathVariable Integer id) {
         var user = userDaoService.findOne(id);
         if (user == null) {
             throw new UserNotFoundException("id : " + id);
         }
-        return user;
+
+        var entityModel = EntityModel.of(user);
+        WebMvcLinkBuilder link = WebMvcLinkBuilder.linkTo(this.getClass(), getAllUsers());
+        entityModel.add(link.withRel("all-users"));
+
+        return entityModel;
     }
 
     @PostMapping(path = "/users")
