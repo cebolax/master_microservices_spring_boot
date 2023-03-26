@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 public class CourseJdbcCommandLineRunner implements CommandLineRunner {
 
     @Autowired
-    CourseJdbcRepository repository;
+    CourseJpaRepository repository;
+
+    //CourseJdbcRepository repository;
+
 
     @Override
     public void run(String... args) throws Exception {
