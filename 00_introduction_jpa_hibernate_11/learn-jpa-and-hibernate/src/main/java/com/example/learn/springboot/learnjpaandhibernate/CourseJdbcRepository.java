@@ -12,10 +12,19 @@ public class CourseJdbcRepository {
 
     public static String INSERT_QUERY = """
             INSERT INTO COURSE (id, name, author)
-            VALUES (1, 'guil', 'v');
+            VALUES (? , ?, ?);
             """;
 
-    void insert() {
-        jdbcTemplate.update(INSERT_QUERY);
+    public static String DELETE_QUERY = """
+            DELETE FROM COURSE 
+            WHERE id = ? 
+            """;
+
+    void insert(Course course) {
+        jdbcTemplate.update(INSERT_QUERY, course.id(), course.name(), course.author());
+    }
+
+    void delete(int id) {
+        jdbcTemplate.update(DELETE_QUERY, id);
     }
 }
