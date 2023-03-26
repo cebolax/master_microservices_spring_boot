@@ -12,7 +12,7 @@ public class CourseJpaRepository {
     @Autowired
     EntityManager entityManager;
 
-    void insert(Course course) {
+    void save(Course course) {
         entityManager.merge(course);
     }
 

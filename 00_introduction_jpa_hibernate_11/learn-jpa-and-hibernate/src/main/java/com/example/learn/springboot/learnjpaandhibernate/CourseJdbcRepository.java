@@ -26,7 +26,7 @@ public class CourseJdbcRepository {
             WHERE id = ?
             """;
 
-    void insert(Course course) {
+    void save(Course course) {
         jdbcTemplate.update(INSERT_QUERY, course.getId(), course.getName(), course.getAuthor());
     }
 
